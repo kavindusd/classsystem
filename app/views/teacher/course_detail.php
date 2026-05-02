@@ -40,10 +40,9 @@ if (!empty($course['class_end_time'])) {
     </div>
 <?php endif; ?>
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-10">
-
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-6 pb-10">
     <!-- Left Column: Settings -->
-    <div class="flex flex-col gap-6">
+    <div class="lg:col-span-2 flex flex-col gap-6">
 
         <!-- Live Session Link -->
         <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
@@ -109,41 +108,41 @@ if (!empty($course['class_end_time'])) {
                 </div>
 
                 <div class="border-t border-gray-100 pt-5">
-                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 block">Session Duration</label>
-                    <div class="grid grid-cols-2 gap-4">
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4 block">Session Duration</label>
+                    <div class="space-y-5">
                         <div>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase mb-1 block">Start Time</span>
-                            <div class="flex gap-1">
-                                <select name="start_hour" class="form-select !px-1.5 !py-1.5 !text-[11px] !bg-gray-50 !w-14">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block tracking-wider">Start Time</span>
+                            <div class="grid grid-cols-3 gap-1">
+                                <select name="start_hour" class="w-full text-[11px] py-1.5 px-1 border border-gray-200 rounded bg-gray-50 text-center focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                                     <?php for($h=1;$h<=12;$h++): $hv=str_pad($h,2,'0',STR_PAD_LEFT); ?>
                                     <option value="<?= $hv ?>" <?= $hv === $startHour ? 'selected' : '' ?>><?= $hv ?></option>
                                     <?php endfor; ?>
                                 </select>
-                                <select name="start_min" class="form-select !px-1.5 !py-1.5 !text-[11px] !bg-gray-50 !w-14">
+                                <select name="start_min" class="w-full text-[11px] py-1.5 px-1 border border-gray-200 rounded bg-gray-50 text-center focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                                     <?php foreach(['00','15','30','45'] as $m): ?>
                                     <option value="<?= $m ?>" <?= $m === $startMin ? 'selected' : '' ?>><?= $m ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <select name="start_ampm" class="form-select !px-1.5 !py-1.5 !text-[10px] !bg-gray-50">
+                                <select name="start_ampm" class="w-full text-[11px] py-1.5 px-1 border border-gray-200 rounded bg-gray-50 text-center font-bold focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                                     <option value="AM" <?= $startAmPm === 'AM' ? 'selected' : '' ?>>AM</option>
                                     <option value="PM" <?= $startAmPm === 'PM' ? 'selected' : '' ?>>PM</option>
                                 </select>
                             </div>
                         </div>
                         <div>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase mb-1 block">End Time</span>
-                            <div class="flex gap-1">
-                                <select name="end_hour" class="form-select !px-1.5 !py-1.5 !text-[11px] !bg-gray-50 !w-14">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block tracking-wider">End Time</span>
+                            <div class="grid grid-cols-3 gap-1">
+                                <select name="end_hour" class="w-full text-[11px] py-1.5 px-1 border border-gray-200 rounded bg-gray-50 text-center focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                                     <?php for($h=1;$h<=12;$h++): $hv=str_pad($h,2,'0',STR_PAD_LEFT); ?>
                                     <option value="<?= $hv ?>" <?= $hv === $endHour ? 'selected' : '' ?>><?= $hv ?></option>
                                     <?php endfor; ?>
                                 </select>
-                                <select name="end_min" class="form-select !px-1.5 !py-1.5 !text-[11px] !bg-gray-50 !w-14">
+                                <select name="end_min" class="w-full text-[11px] py-1.5 px-1 border border-gray-200 rounded bg-gray-50 text-center focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                                     <?php foreach(['00','15','30','45'] as $m): ?>
                                     <option value="<?= $m ?>" <?= $m === $endMin ? 'selected' : '' ?>><?= $m ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <select name="end_ampm" class="form-select !px-1.5 !py-1.5 !text-[10px] !bg-gray-50">
+                                <select name="end_ampm" class="w-full text-[11px] py-1.5 px-1 border border-gray-200 rounded bg-gray-50 text-center font-bold focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                                     <option value="AM" <?= $endAmPm === 'AM' ? 'selected' : '' ?>>AM</option>
                                     <option value="PM" <?= $endAmPm === 'PM' ? 'selected' : '' ?>>PM</option>
                                 </select>
@@ -160,7 +159,7 @@ if (!empty($course['class_end_time'])) {
     </div>
 
     <!-- Right Column: Student Roster -->
-    <div class="lg:col-span-2">
+    <div class="lg:col-span-3">
         <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
             <div class="p-5 border-b border-gray-100 flex items-center justify-between">
                 <h2 class="font-bold text-gray-900">Enrolled Students</h2>
