@@ -122,7 +122,7 @@ if (!empty($course['class_end_time'])) {
                                 <select name="start_min" class="form-select !px-1.5 !py-1.5 !text-[11px] !bg-gray-50 !w-14">
                                     <?php foreach(['00','15','30','45'] as $m): ?>
                                     <option value="<?= $m ?>" <?= $m === $startMin ? 'selected' : '' ?>><?= $m ?></option>
-                                    <?php endfor; ?>
+                                    <?php endforeach; ?>
                                 </select>
                                 <select name="start_ampm" class="form-select !px-1.5 !py-1.5 !text-[10px] !bg-gray-50">
                                     <option value="AM" <?= $startAmPm === 'AM' ? 'selected' : '' ?>>AM</option>
@@ -141,7 +141,7 @@ if (!empty($course['class_end_time'])) {
                                 <select name="end_min" class="form-select !px-1.5 !py-1.5 !text-[11px] !bg-gray-50 !w-14">
                                     <?php foreach(['00','15','30','45'] as $m): ?>
                                     <option value="<?= $m ?>" <?= $m === $endMin ? 'selected' : '' ?>><?= $m ?></option>
-                                    <?php endfor; ?>
+                                    <?php endforeach; ?>
                                 </select>
                                 <select name="end_ampm" class="form-select !px-1.5 !py-1.5 !text-[10px] !bg-gray-50">
                                     <option value="AM" <?= $endAmPm === 'AM' ? 'selected' : '' ?>>AM</option>
