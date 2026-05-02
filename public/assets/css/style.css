@@ -1,0 +1,25 @@
+/* ClassSystem — Main Stylesheet */
+/* TODO: Build out per-role themes, calendar grid, and grading table styles */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: sans-serif; }
+
+.auth-body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f5f5f5; }
+.auth-container { background: #fff; padding: 2rem; border-radius: 8px; width: 100%; max-width: 420px; }
+
+.panel-body { display: flex; min-height: 100vh; }
+.sidebar { width: 240px; background: #1a1a2e; color: #fff; padding: 1.5rem; flex-shrink: 0; }
+.sidebar__logo { font-size: 1.2rem; font-weight: 700; margin-bottom: 2rem; }
+.sidebar__nav { list-style: none; }
+.sidebar__nav li + li { margin-top: 0.5rem; }
+.sidebar__nav a { color: #ccc; text-decoration: none; display: block; padding: 0.4rem 0.6rem; border-radius: 4px; }
+.sidebar__nav a:hover { background: rgba(255,255,255,.1); color: #fff; }
+.panel-content { flex: 1; padding: 2rem; background: #f9f9f9; }
+
+.alert { padding: .75rem 1rem; border-radius: 4px; margin-bottom: 1rem; }
+.alert-error   { background: #ffe0e0; color: #c00; }
+.alert-success { background: #e0ffe0; color: #060; }
+
+.error-page { text-align: center; padding: 4rem; }
+.error-page h1 { font-size: 5rem; }

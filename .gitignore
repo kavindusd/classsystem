@@ -1,0 +1,29 @@
+# --- Sensitive Data ---
+.env
+
+# --- Uploads & Dynamic Content ---
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# --- Logs & Cache ---
+/storage/logs/*.log
+/storage/cache/*
+!/storage/logs/.gitkeep
+!/storage/cache/.gitkeep
+
+# --- OS & IDE Junk ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# --- Temporary Files ---
+*.tmp
+*.zip
+*.log
+cookies.txt
+scratch/
+scratch.php
+debug_*.php

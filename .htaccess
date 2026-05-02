@@ -1,0 +1,13 @@
+Options -Indexes
+RewriteEngine On
+
+# Define base path for XAMPP subdirectory installation
+RewriteBase /classystem/
+
+# Block access to sensitive directories
+RewriteRule ^(app|config|routes|storage|vendor)/ - [F,L]
+
+# Redirect all requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
