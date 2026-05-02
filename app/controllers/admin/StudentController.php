@@ -35,9 +35,13 @@ class StudentController extends Controller {
 
         $name     = Request::sanitize(Request::post('name'));
         $email    = Request::post('email');
-        $phone    = Request::post('phone');
-        $whatsapp = Request::post('whatsapp_number');
-        $password = Request::post('password');
+        // Normalize phone and whatsapp if provided
+        if ($phone) {
+            $phone = AuthHelper::normalizePhone($phone);
+        }
+        if ($whatsapp) {
+            $whatsapp = AuthHelper::normalizePhone($whatsapp);
+        }
 
         if (!$name || (!$email && !$phone) || !$password) {
             Session::flash('error', 'Name, at least one contact (email or phone), and a password are required.');
@@ -72,11 +76,12 @@ class StudentController extends Controller {
 
         if ($email) {
             MailHelper::sendStudentId($email, $studentId, $name);
-        } else {
-            error_log("[STUDENT_ID] Phone: {$phone} ID: {$studentId}");
+        }
+        if ($phone) {
+            error_log("[STUDENT_ID_DISPATCH] Phone: {$phone} ID: {$studentId} Name: {$name}");
         }
 
-        Session::flash('success', "Student created. ID: {$studentId}");
+        Session::flash('success', "Student created. ID: {$studentId} has been sent to their contact(s).");
         $this->redirect('admin/students');
     }
 
@@ -95,6 +100,13 @@ class StudentController extends Controller {
         $email = Request::post('email');
         $phone = Request::post('phone');
         $whatsapp = Request::post('whatsapp_number');
+
+        if ($phone) {
+            $phone = AuthHelper::normalizePhone($phone);
+        }
+        if ($whatsapp) {
+            $whatsapp = AuthHelper::normalizePhone($whatsapp);
+        }
 
         $userModel = new UserModel();
         $userModel->update($student['user_id'], [

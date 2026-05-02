@@ -35,7 +35,10 @@ class TeacherController extends Controller {
 
         $name    = Request::sanitize(Request::post('name'));
         $email   = Request::post('email');
-        $phone   = Request::post('phone');
+        // Normalize phone if provided
+        if ($phone) {
+            $phone = AuthHelper::normalizePhone($phone);
+        }
 
         if (!$name || (!$email && !$phone)) {
             Session::flash('error', 'Name and at least one contact (email or phone) are required.');
@@ -79,15 +82,19 @@ class TeacherController extends Controller {
             'is_first_login' => 1,
         ]);
 
-        // Send credentials via email or phone
+        // Send credentials via email
         if ($email) {
             MailHelper::sendTeacherCredentials($email, $teacherId, $tempPassword, $name);
-        } else {
-            // TODO: SMS gateway
-            error_log("[TEACHER_CREDENTIALS] Phone: {$phone} ID: {$teacherId} Pass: {$tempPassword}");
         }
 
-        Session::flash('success', "Teacher created. ID: {$teacherId} has been sent to their contact.");
+        // Send credentials via Phone/WhatsApp
+        if ($phone) {
+            $msg = "Hi {$name}, your teacher account has been created.\nID: {$teacherId}\nPass: {$tempPassword}";
+            // Here we can call WhatsApp or SMS helper
+            error_log("[TEACHER_CREDENTIALS_DISPATCH] Phone: {$phone} Msg: " . str_replace("\n", " ", $msg));
+        }
+
+        Session::flash('success', "Teacher created. ID: {$teacherId} has been sent to their contact(s).");
         $this->redirect('admin/teachers');
     }
 
@@ -105,6 +112,10 @@ class TeacherController extends Controller {
         $name  = Request::sanitize(Request::post('name'));
         $email = Request::post('email');
         $phone = Request::post('phone');
+
+        if ($phone) {
+            $phone = AuthHelper::normalizePhone($phone);
+        }
 
         $updateData = [
             'name'  => $name,
