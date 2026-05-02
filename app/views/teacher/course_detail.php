@@ -1,3 +1,22 @@
+<?php
+// Time Parsing Logic
+$startHour = ''; $startMin = ''; $startAmPm = '';
+if (!empty($course['class_start_time'])) {
+    $st = strtotime($course['class_start_time']);
+    $startHour = date('h', $st);
+    $startMin  = date('i', $st);
+    $startAmPm = date('A', $st);
+}
+
+$endHour = ''; $endMin = ''; $endAmPm = '';
+if (!empty($course['class_end_time'])) {
+    $et = strtotime($course['class_end_time']);
+    $endHour = date('h', $et);
+    $endMin  = date('i', $et);
+    $endAmPm = date('A', $et);
+}
+?>
+
 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
     <div class="flex items-center gap-4">
         <a href="<?= APP_URL ?>/teacher/courses" class="w-9 h-9 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:border-gray-300 transition-all shadow-sm">
@@ -53,6 +72,25 @@
             <form method="POST" action="<?= APP_URL ?>/teacher/courses/<?= $course['id'] ?>/update" enctype="multipart/form-data" class="flex flex-col gap-5">
 
                 <div>
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Course Description</label>
+                    <textarea name="description" rows="3" class="form-input w-full !text-xs !leading-relaxed" placeholder="Briefly describe what this course covers..."><?= htmlspecialchars($course['description'] ?? '') ?></textarea>
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Cover Image</label>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-lg bg-gray-50 border border-gray-200 flex-shrink-0 overflow-hidden">
+                            <?php if (!empty($course['cover_image'])): ?>
+                                <img src="<?= APP_URL ?>/public/uploads/courses/<?= htmlspecialchars($course['cover_image']) ?>" class="w-full h-full object-cover">
+                            <?php else: ?>
+                                <div class="w-full h-full flex items-center justify-center text-gray-300"><i class="fa-solid fa-image"></i></div>
+                            <?php endif; ?>
+                        </div>
+                        <input type="file" name="cover_image" accept="image/*" class="text-[10px] text-gray-400 file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-100 pt-5">
                     <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Scheduled Days</label>
                     <div class="flex flex-wrap gap-2">
                         <?php
@@ -76,28 +114,38 @@
                         <div>
                             <span class="text-[10px] font-bold text-gray-400 uppercase mb-1 block">Start Time</span>
                             <div class="flex gap-1">
-                                <select name="start_hour" class="form-select flex-1 !px-2 !py-2 !text-xs !bg-gray-50">
-                                    <?php for($h=1;$h<=12;$h++): ?>
-                                    <option value="<?= str_pad($h,2,'0',STR_PAD_LEFT) ?>" <?= str_pad($h,2,'0',STR_PAD_LEFT) === ($startHour ?? '') ? 'selected' : '' ?>><?= str_pad($h,2,'0',STR_PAD_LEFT) ?></option>
+                                <select name="start_hour" class="form-select !px-1.5 !py-1.5 !text-[11px] !bg-gray-50 !w-14">
+                                    <?php for($h=1;$h<=12;$h++): $hv=str_pad($h,2,'0',STR_PAD_LEFT); ?>
+                                    <option value="<?= $hv ?>" <?= $hv === $startHour ? 'selected' : '' ?>><?= $hv ?></option>
                                     <?php endfor; ?>
                                 </select>
-                                <select name="start_ampm" class="form-select !px-2 !py-2 !text-[10px] !bg-gray-50">
-                                    <option value="AM" <?= ('AM' === ($startAmPm ?? '')) ? 'selected' : '' ?>>AM</option>
-                                    <option value="PM" <?= ('PM' === ($startAmPm ?? '')) ? 'selected' : '' ?>>PM</option>
+                                <select name="start_min" class="form-select !px-1.5 !py-1.5 !text-[11px] !bg-gray-50 !w-14">
+                                    <?php foreach(['00','15','30','45'] as $m): ?>
+                                    <option value="<?= $m ?>" <?= $m === $startMin ? 'selected' : '' ?>><?= $m ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                                <select name="start_ampm" class="form-select !px-1.5 !py-1.5 !text-[10px] !bg-gray-50">
+                                    <option value="AM" <?= $startAmPm === 'AM' ? 'selected' : '' ?>>AM</option>
+                                    <option value="PM" <?= $startAmPm === 'PM' ? 'selected' : '' ?>>PM</option>
                                 </select>
                             </div>
                         </div>
                         <div>
                             <span class="text-[10px] font-bold text-gray-400 uppercase mb-1 block">End Time</span>
                             <div class="flex gap-1">
-                                <select name="end_hour" class="form-select flex-1 !px-2 !py-2 !text-xs !bg-gray-50">
-                                    <?php for($h=1;$h<=12;$h++): ?>
-                                    <option value="<?= str_pad($h,2,'0',STR_PAD_LEFT) ?>" <?= str_pad($h,2,'0',STR_PAD_LEFT) === ($endHour ?? '') ? 'selected' : '' ?>><?= str_pad($h,2,'0',STR_PAD_LEFT) ?></option>
+                                <select name="end_hour" class="form-select !px-1.5 !py-1.5 !text-[11px] !bg-gray-50 !w-14">
+                                    <?php for($h=1;$h<=12;$h++): $hv=str_pad($h,2,'0',STR_PAD_LEFT); ?>
+                                    <option value="<?= $hv ?>" <?= $hv === $endHour ? 'selected' : '' ?>><?= $hv ?></option>
                                     <?php endfor; ?>
                                 </select>
-                                <select name="end_ampm" class="form-select !px-2 !py-2 !text-[10px] !bg-gray-50">
-                                    <option value="AM" <?= ('AM' === ($endAmPm ?? '')) ? 'selected' : '' ?>>AM</option>
-                                    <option value="PM" <?= ('PM' === ($endAmPm ?? '')) ? 'selected' : '' ?>>PM</option>
+                                <select name="end_min" class="form-select !px-1.5 !py-1.5 !text-[11px] !bg-gray-50 !w-14">
+                                    <?php foreach(['00','15','30','45'] as $m): ?>
+                                    <option value="<?= $m ?>" <?= $m === $endMin ? 'selected' : '' ?>><?= $m ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                                <select name="end_ampm" class="form-select !px-1.5 !py-1.5 !text-[10px] !bg-gray-50">
+                                    <option value="AM" <?= $endAmPm === 'AM' ? 'selected' : '' ?>>AM</option>
+                                    <option value="PM" <?= $endAmPm === 'PM' ? 'selected' : '' ?>>PM</option>
                                 </select>
                             </div>
                         </div>
